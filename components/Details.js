@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { SafeAreaView, ScrollView, View, Text } from "react-native";
-import { ActivityIndicator } from "react-native-paper";
+import { SafeAreaView, ScrollView, View, Text, Pressable } from "react-native";
+import { ActivityIndicator, Button, PaperProvider } from "react-native-paper";
 import RenderHTML from "react-native-render-html";
 
 const Details = ({ navigation, route }) => {
@@ -20,11 +20,30 @@ const Details = ({ navigation, route }) => {
     );
   }
   return (
-    <SafeAreaView>
-      <ScrollView style={{ padding: 20 }}>
-        <RenderHTML source={{ html: `${article.body_html}` }} />
-      </ScrollView>
-    </SafeAreaView>
+    <PaperProvider>
+      <SafeAreaView>
+        <Button
+          icon="comment"
+          style={{
+            width: 150,
+            height: 50,
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: 10,
+          }}
+          onPress={() =>
+            navigation.navigate("Comments", {
+              comments: article.comments_count,
+            })
+          }
+        >
+          comments
+        </Button>
+        <ScrollView style={{ padding: 20 }}>
+          <RenderHTML source={{ html: `${article.body_html}` }} />
+        </ScrollView>
+      </SafeAreaView>
+    </PaperProvider>
   );
 };
 export default Details;
