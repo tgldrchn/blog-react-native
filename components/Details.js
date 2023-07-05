@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { SafeAreaView, ScrollView, View, Text, Pressable } from "react-native";
+import { SafeAreaView, ScrollView, View } from "react-native";
 import { ActivityIndicator, Button, PaperProvider } from "react-native-paper";
 import RenderHTML from "react-native-render-html";
 

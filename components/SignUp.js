@@ -1,14 +1,17 @@
 import * as React from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useSignUp } from "@clerk/clerk-expo";
-
+import { useContext } from "react";
+import { Button, DefaultTheme, PaperProvider } from "react-native-paper";
+import { Main } from "../App";
+import { StyleSheet } from "react-native";
 export default function SignUpScreen() {
   const { isLoaded, signUp, setActive } = useSignUp();
-
   const [emailAddress, setEmailAddress] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [pendingVerification, setPendingVerification] = React.useState(false);
   const [code, setCode] = React.useState("");
+  const { sign, setSign } = useContext(Main);
 
   // start the sign up process.
   const onSignUpPress = async () => {
@@ -48,55 +51,144 @@ export default function SignUpScreen() {
       console.error(JSON.stringify(err, null, 2));
     }
   };
-
+  const theme = {
+    ...DefaultTheme,
+    roundness: 2,
+    colors: {
+      ...DefaultTheme.colors,
+      primary: "#5d4037",
+      accent: "#f1c40f",
+    },
+  };
   return (
-    <View
-      style={{
-        height: 200,
-        justifyContent: "center",
-        alignSelf: "center",
-      }}
-    >
+    <PaperProvider theme={theme}>
       {!pendingVerification && (
-        <View>
+        <View style={styles.container}>
+          <Text
+            style={{
+              fontSize: 30,
+              fontWeight: 800,
+              color: "#5d4037",
+              margin: 20,
+            }}
+          >
+            Бүртгүүлэх
+          </Text>
           <View>
             <TextInput
+              mode="outlined"
+              style={styles.input}
               autoCapitalize="none"
               value={emailAddress}
-              placeholder="Email..."
-              onChangeText={(email) => setEmailAddress(email)}
+              placeholder="майл хаяг"
+              onChangeText={(emailAddress) => setEmailAddress(emailAddress)}
             />
           </View>
-
           <View>
             <TextInput
+              mode="outlined"
+              style={styles.input}
               value={password}
-              placeholder="Password..."
-              placeholderTextColor="#000"
+              placeholder="Нууц үг"
               secureTextEntry={true}
               onChangeText={(password) => setPassword(password)}
+              theme={{ colors: { placeholder: styles.color } }}
             />
           </View>
 
-          <TouchableOpacity onPress={onSignUpPress}>
-            <Text>Sign up</Text>
-          </TouchableOpacity>
+          <Button
+            icon=""
+            mode="outlined"
+            onPress={onSignUpPress}
+            style={styles.button}
+            theme={{ roundness: 1 }}
+          >
+            <Text style={{ color: "white" }}>Бүртгүүлэх</Text>
+          </Button>
+          <View style={{ flexDirection: "row" }}>
+            <Button>
+              <Text>Шинэ хэрэглэгч болох бол</Text>
+            </Button>
+            <Button onPress={() => setSign(!sign)}>
+              <Text style={{ fontWeight: 800 }}>Нэвтрэх</Text>
+            </Button>
+          </View>
         </View>
       )}
       {pendingVerification && (
-        <View>
+        <View style={styles.miniContainer}>
+          <Text
+            style={{
+              fontSize: 30,
+              fontWeight: 800,
+              color: "#5d4037",
+              margin: 20,
+            }}
+          >
+            Баталгаажуулах
+          </Text>
           <View>
             <TextInput
+              mode="outlined"
+              style={styles.input}
               value={code}
-              placeholder="Code..."
+              placeholder="Баталгаажуулах код"
               onChangeText={(code) => setCode(code)}
+              theme={{ colors: { placeholder: styles.color } }}
             />
           </View>
-          <TouchableOpacity onPress={onPressVerify}>
-            <Text>Verify Email</Text>
-          </TouchableOpacity>
+          <Button
+            mode="outlined"
+            style={styles.button}
+            theme={{ roundness: 1 }}
+            onPress={onPressVerify}
+          >
+            <Text style={{ color: "white" }}>Баталгаажуулах</Text>
+          </Button>
+          <Button onPress={() => setSign(!sign)}>
+            <Text style={{ fontWeight: 800 }}>Буцах</Text>
+          </Button>
         </View>
       )}
-    </View>
+    </PaperProvider>
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    marginTop: 200,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "white",
+    width: 350,
+    height: 450,
+    borderRadius: 10,
+  },
+  miniContainer: {
+    marginTop: 250,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "white",
+    width: 350,
+    height: 300,
+    borderRadius: 10,
+  },
+  input: {
+    width: 300,
+    height: 50,
+    margin: 10,
+    backgroundColor: "white",
+    borderWidth: 2,
+    padding: 10,
+    borderColor: "#5d4037",
+    borderRadius: 10,
+  },
+  button: {
+    width: 200,
+    margin: 10,
+    backgroundColor: "#5d4037",
+    borderRadius: 10,
+  },
+  color: {
+    placeholder: "rgb(181, 236, 253)",
+  },
+});
