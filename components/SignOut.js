@@ -1,5 +1,5 @@
 import { useAuth } from "@clerk/clerk-expo";
-import { View, Button } from "react-native";
+import { Avatar, Button, Card, Text } from "react-native-paper";
 
 export const SignOut = () => {
   const { isLoaded, signOut } = useAuth();
@@ -7,13 +7,20 @@ export const SignOut = () => {
     return null;
   }
   return (
-    <View>
-      <Button
-        title="Sign Out"
-        onPress={() => {
-          signOut();
-        }}
-      />
-    </View>
+    <Card
+      style={{
+        width: 100,
+        height: 50,
+        backgroundColor: "white",
+        justifyContent: "center",
+        alignItems: "center",
+        margin: 20,
+      }}
+      onPress={() => {
+        signOut();
+      }}
+    >
+      <Text style={{ color: "#5d4037", fontWeight: 800 }}>Sign Out</Text>
+    </Card>
   );
 };

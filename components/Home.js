@@ -11,7 +11,7 @@ const Home = ({ navigation }) => {
       .then((data) => setArticles(data));
   }, []);
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ backgroundColor: "#5d4037" }}>
       <ScrollView>
         <View style={styles.container}>
           {article.map((article) => {
@@ -32,8 +32,9 @@ export default Home;
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "#5d4037",
     flex: 1,
-    backgroundColor: "#fff",
+
     alignItems: "center",
     justifyContent: "center",
   },

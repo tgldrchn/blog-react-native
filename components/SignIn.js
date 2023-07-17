@@ -28,7 +28,7 @@ export default function SignInScreen() {
       console.log(err);
     }
   };
-
+  console.log(signIn);
   const theme = {
     ...DefaultTheme,
     roundness: 2,

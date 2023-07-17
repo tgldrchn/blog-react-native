@@ -38,7 +38,7 @@ export default function App() {
   const Tab = createBottomTabNavigator();
   const TabNavigator = () => {
     return (
-      <Tab.Navigator>
+      <Tab.Navigator activeBackgrounColor="#663300">
         <Tab.Screen
           name="Home"
           component={Home}
@@ -83,7 +83,6 @@ export default function App() {
               <DrawerNavigator />
             </NavigationContainer>
           </PaperProvider>
-          <SignOut />
         </SignedIn>
         <SignedOut>
           <View
